@@ -1,27 +1,25 @@
 import React, { useState } from "react";
 import "./Login.scss";
-import axios from "axios";
-import loginRoute from "../../api/api.js";
-
+import newRequests from "../../utils/newRequest";
+import {useNavigate} from "react-router-dom"
 function Login() {
   const [username, setusername] = useState("");
   const [password, setPassword] = useState("");
-  const [err, setError] = useState(null);
+  const [error, setError] = useState(null);
+  const navigate= useNavigate()
 
   console.log(username, password);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:4000/api/auth/login", {
-        username,
-        password,
-      });
-
+      const res = await newRequests.post("/auth/login", { username, password });
+      localStorage.setItem("currentUser", JSON.stringify(res.data));
+      navigate("/");
       console.log(res.data);
     } catch (err) {
-      setError(err);
-      console.log(err);
+      setError(err.response.data);
+      // console.log(err.response.data);
     }
   };
 
@@ -52,6 +50,7 @@ function Login() {
         <button type="submit" className="login-button">
           Login
         </button>
+        {error && error}
       </form>
     </div>
   );
