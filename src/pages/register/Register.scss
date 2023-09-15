@@ -1,48 +1,88 @@
-/* Register.css */
+/* Register.scss */
 
-.register-container {
-  width: 300px;
-  margin: 0 auto;
+// Global Styles
+$primary-color: #007bff;
+$secondary-color: #0056b3;
+$font-family: Arial, sans-serif;
+
+body {
+  font-family: $font-family;
+  background-color: #f0f0f0;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 110vh;
+}
+
+// Container Styles
+.container {
+  text-align: center;
+  max-width: 400px;
   padding: 20px;
-  border: 1px solid #ccc;
+  background-color: #fff;
+  border: 1px solid #e0e0e0;
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  background-color: #fff;
+}
 
-  .register-container h2 {
-    text-align: center;
-  }
+h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: $primary-color;
+}
 
-  .form-group {
-    margin-bottom: 20px;
-  }
+// Form Styles
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 
   label {
-    display: block;
-    margin-bottom: 5px;
     font-weight: bold;
   }
 
   input[type="text"],
   input[type="email"],
-  input[type="password"] {
+  input[type="password"],
+  textarea {
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 4px;
+    font-size: 16px;
   }
 
-  .register-button {
-    width: 100%;
-    padding: 10px;
-    background-color: #0073e6;
-    color: #fff;
+  textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+
+  label > input[type="checkbox"] {
+    margin-left: 5px;
+  }
+
+  button[type="submit"] {
+    background-color: $primary-color;
+    color: white;
+    padding: 10px 20px;
     border: none;
-    border-radius: 5px;
+    border-radius: 4px;
+    font-size: 18px;
     cursor: pointer;
-  }
+    transition: background-color 0.3s ease;
 
-  .register-button:hover {
-    background-color: #005bbb;
+    &:hover {
+      background-color: $secondary-color;
+    }
   }
 }
+
+// Additional Styles (customize as needed)
+.input-error {
+  color: red;
+  font-size: 14px;
+}
+
+/* Add more custom styles here for specific elements */
