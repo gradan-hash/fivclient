@@ -1,3 +1,5 @@
-const host  = "http://localhost:4000";
+const host = "http://localhost:4000/api";
 
-const loginRoute = ""
+const loginRoute = `${host}/auth/login`;
+
+export default { loginRoute, host };

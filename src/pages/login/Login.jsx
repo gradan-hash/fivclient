@@ -1,19 +1,27 @@
 import React, { useState } from "react";
 import "./Login.scss";
-import axios from "axios"
+import axios from "axios";
+import loginRoute from "../../api/api.js";
 
 function Login() {
   const [username, setusername] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(null);
+  const [err, setError] = useState(null);
 
-  const handleSubmit = async(e) => {
+  console.log(username, password);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("")
-    } catch (error) {
-      console.log(error)
-      
+      const res = await axios.post("http://localhost:4000/api/auth/login", {
+        username,
+        password,
+      });
+
+      console.log(res.data);
+    } catch (err) {
+      setError(err);
+      console.log(err);
     }
   };
 
@@ -22,13 +30,12 @@ function Login() {
       <h2>Login to Fiverr</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label htmlFor="email">username</label>
+          <label htmlFor="username">username</label>
           <input
             type="username"
             id="username"
-            value={username}
-            onChange={(e) => setusername(e.target.username)}
-            placeholder="Enter your email"
+            onChange={(e) => setusername(e.target.value)}
+            placeholder="Enter your username"
             required
           />
         </div>
@@ -37,7 +44,6 @@ function Login() {
           <input
             type="password"
             id="password"
-            value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Enter your password"
             required
