@@ -1,8 +1,9 @@
-// Register.jsx
-
 import React, { useState } from "react";
-import axios from "axios";
+
 import "./Register.scss";
+import upload from "../../utils/upload";
+import newRequests from "../../utils/newRequest";
+import { useNavigate } from "react-router-dom";
 
 function Register() {
   const [file, setFile] = useState(null);
@@ -16,6 +17,8 @@ function Register() {
     desc: "",
     isSeller: false,
   });
+  console.log(User);
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setUser((prev) => {
@@ -29,30 +32,21 @@ function Register() {
     });
   };
 
-  // const upload = async (file) => {
-  //   const data = new FormData();
-  //   data.append("file", file);
-  //   data.append("upload_preset", "fiver");
 
-  //   try {
-  //     const res = await axios.post(
-  //       "https://api.cloudinary.com/v1_1/drh36px3j/upload",
-  //       { data }
-  //     );
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const url = await upload(file);
     try {
-      const res = await axios.post("");
+      const res = await newRequests.post("/auth/register", {
+        ...User,
+        img: url,
+      });
       console.log(res.data);
-      // Handle successful registration, e.g., redirect to a login page
+      navigate("/login");
     } catch (err) {
       console.error(err);
-      // Handle registration error
     }
   };
 
