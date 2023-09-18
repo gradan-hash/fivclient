@@ -78,3 +78,6 @@ function App() {
 }
 
 export default App;
+
+
+// npm install @tanstack/react-query  infinite-react-carousel --force
