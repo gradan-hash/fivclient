@@ -27,7 +27,7 @@ function Navbar() {
 
   const handleLogout = async () => {
     try {
-      const res = await newRequests.post("/auth/logout");
+      await newRequests.post("/auth/logout");
       localStorage.setItem("currentUser", null);
       navigate("/");
     } catch (err) {
@@ -79,7 +79,9 @@ function Navbar() {
             </div>
           ) : (
             <>
-              <span>Sign in</span>
+              <Link to="/login" className="links">
+                Sign in
+              </Link>
               <Link className="link" to="/register">
                 <button>Join</button>
               </Link>
