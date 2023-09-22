@@ -24,6 +24,12 @@
           width: 20px;
         }
       }
+      .add {
+        display: flex;
+        margin-top: 20px;
+        flex-direction: column;
+        gap: 20px;
+      }
     }
 
     .stars {

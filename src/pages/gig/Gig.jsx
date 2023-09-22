@@ -9,7 +9,7 @@ import Reviews from "../../components/reviews/Reviews";
 
 function Gig() {
   const { id } = useParams();
-  console.log(id);
+  // console.log(id);
 
   const { isLoading, error, data } = useQuery({
     queryKey: ["singlegig"],
@@ -23,6 +23,8 @@ function Gig() {
         }),
   });
 
+  const userId = data?.userId;
+
   const {
     isLoading: loadingUser,
     error: errorUser,
@@ -31,13 +33,15 @@ function Gig() {
     queryKey: ["userr"],
     queryFn: () =>
       newRequests
-        .get(`/gigs/user/${data.userId}`)
+        .get(`/gigs/${userId}`)
 
         // /gigs${search}&min=${minRef.current.value}&max=${maRef.current.value}"
         .then((res) => {
           return res.data;
         }),
+    enabled: !!userId,
   });
+  console.log(data);
 
   return (
     <div className="gig">
@@ -104,9 +108,9 @@ function Gig() {
                         <div className="stars">
                           {Array(Math.round(data.totalStars / data.starNumber))
                             .fill()
-                            .map((item, i) => {
-                              <img src="/img/star.png" alt="" key={i} />;
-                            })}
+                            .map((item, i) => (
+                              <img src="/img/star.png" alt="" key={i} />
+                            ))}
 
                           <span>
                             {" "}
