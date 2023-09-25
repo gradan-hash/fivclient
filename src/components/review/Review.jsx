@@ -18,7 +18,7 @@ const Review = ({ review }) => {
         }),
     enabled: !!userId,
   });
-  console.log(data);
+  // console.log(data);
   return (
     <div>
       <div className="reviews">

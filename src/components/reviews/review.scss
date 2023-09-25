@@ -29,6 +29,20 @@
         margin-top: 20px;
         flex-direction: column;
         gap: 20px;
+
+        .addinput {
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+        }
+        input {
+          padding: 20px;
+        }
+        select {
+          width: 100px;
+          padding: 20px;
+          align-self: flex-end;
+        }
       }
     }
 

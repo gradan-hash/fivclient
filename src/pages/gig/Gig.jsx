@@ -33,7 +33,7 @@ function Gig() {
     queryKey: ["userr"],
     queryFn: () =>
       newRequests
-        .get(`/gigs/${userId}`)
+        .get(`/user/${userId}`)
 
         // /gigs${search}&min=${minRef.current.value}&max=${maRef.current.value}"
         .then((res) => {
