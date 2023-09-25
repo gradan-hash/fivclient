@@ -1,9 +1,11 @@
 .message {
   display: flex;
   justify-content: center;
+  margin-top: 1370px;
+
   .container {
     width: 1200px;
-    margin: 50px;
+    margin: 150px;
     .breadcrumbs {
       font-weight: 300;
       font-size: 13px;
@@ -73,7 +75,7 @@
         border-radius: 10px;
       }
 
-      button{
+      button {
         background-color: #1dbf73;
         padding: 20px;
         color: white;

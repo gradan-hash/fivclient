@@ -1,82 +1,71 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./Messages.scss";
-
+import { useQuery } from "@tanstack/react-query";
+import newRequests from "../../utils/newRequest";
+import moment from "moment";
 const Messages = () => {
-  const currentUser = {
-    id: 1,
-    username: "Anna",
-    isSeller: true,
-  };
+  const { isLoading, error, data } = useQuery({
+    queryKey: ["conversation"],
+    queryFn: () =>
+      newRequests
+        .get("/conversation")
 
-  const message = `Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident
-  maxime cum corporis esse aspernatur laborum dolorum? Animi
-  molestias aliquam, cum nesciunt, aut, ut quam vitae saepe repellat
-  nobis praesentium placeat.`;
+        .then((res) => {
+          return res.data;
+        }),
+  });
+
+  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
 
   return (
     <div className="messages">
-      <div className="container">
-        <div className="title">
-          <h1>Messages</h1>
-        </div>
-        <table>
-          <tr>
-            <th>{currentUser.isSeller ? "Buyer" : "Seller"}</th>
-            <th>Last Message</th>
-            <th>Date</th>
-            <th>Action</th>
-          </tr>
-          <tr className="active">
-            <td>Charley Sharp</td>
-            <td>
-              <Link to="/message/123" className="link">
-                {message.substring(0, 100)}...
-              </Link>
-            </td>
-            <td>1 hour ago</td>
-            <td>
-              <button>Mark as Read</button>
-            </td>
-          </tr>
-          <tr className="active">
-            <td>John Doe</td>
+      {isLoading ? (
+        "loading..."
+      ) : error ? (
+        "something went wrong"
+      ) : (
+        <div className="container">
+          <div className="title">
+            <h1>Messages</h1>
+          </div>
+          <table>
+            <tr>
+              <th>{currentUser.isSeller ? "Buyer" : "Seller"}</th>
+              <th>Last Message</th>
+              <th>Date</th>
+              <th>Action</th>
+            </tr>
 
-            <td>
-              <Link to="/message/123" className="link">
-                {message.substring(0, 100)}...
-              </Link>
-            </td>
-            <td>2 hours ago</td>
-            <td>
-              <button>Mark as Read</button>
-            </td>
-          </tr>
-          <tr>
-            <td>Elinor Good</td>
-            <td>
-              <Link to="/message/123" className="link">
-                {message.substring(0, 100)}...
-              </Link>
-            </td>
-            <td>1 day ago</td>
-          </tr>
-          <tr>
-            <td>Garner David </td>
-            <td>
-              <Link to="/message/123" className="link">
-                {message.substring(0, 100)}...
-              </Link>
-            </td>
-            <td>2 days ago</td>
-          </tr>
-          <tr>
-            <td>Troy Oliver</td>
-            <td>{message.substring(0, 100)}</td>
-            <td>1 week ago</td>
-          </tr>
-        </table>
-      </div>
+            {data.map((convo) => (
+              <tr
+                className={
+                  ((currentUser.isSeller && !convo.readByseller) ||
+                    (!currentUser.isSeller && !convo.readByBuyer)) &&
+                  "active"
+                }
+                key={convo.id}>
+                <td>
+                  {" "}
+                  {currentUser.isSeller ? convo.sellerId : convo.buyerId}
+                </td>
+                <td>
+                  <Link to="/message/123" className="link">
+                    {convo?.lastmessage?.substring(0, 100)}...
+                  </Link>
+                </td>
+                <td>{moment(convo.updatedAt).fromNow}</td>
+                <td>
+                  {((currentUser.isSeller && !convo.readByseller) ||
+                    (!currentUser.isSeller && !convo.readByBuyer)) && (
+                    <button>Mark as Read</button>
+                  )}
+                </td>
+              </tr>
+            ))}
+          </table>
+        </div>
+      )}
     </div>
   );
 };
