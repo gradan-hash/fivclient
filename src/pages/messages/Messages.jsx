@@ -1,10 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./Messages.scss";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import newRequests from "../../utils/newRequest";
 import moment from "moment";
 const Messages = () => {
+  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+  const queryClient = useQueryClient();
+
   const { isLoading, error, data } = useQuery({
     queryKey: ["conversation"],
     queryFn: () =>
@@ -16,7 +19,17 @@ const Messages = () => {
         }),
   });
 
-  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+  const mutation = useMutation({
+    mutationFn: (id) => {
+      return newRequests.put(`/conversation/${id}`);
+    },
+    //update reviews when post is success(refresh)
+    onSuccess: () => {
+      queryClient.invalidateQueries(["conversation"]);
+    },
+  });
+
+  const handleRead = () => {};
 
   return (
     <div className="messages">
@@ -58,7 +71,7 @@ const Messages = () => {
                 <td>
                   {((currentUser.isSeller && !convo.readByseller) ||
                     (!currentUser.isSeller && !convo.readByBuyer)) && (
-                    <button>Mark as Read</button>
+                    <button onClick={handleRead}>Mark as Read</button>
                   )}
                 </td>
               </tr>
