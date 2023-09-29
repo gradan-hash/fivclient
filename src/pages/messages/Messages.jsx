@@ -29,7 +29,9 @@ const Messages = () => {
     },
   });
 
-  const handleRead = () => {};
+  const handleRead = (id) => {
+    mutation.mutate(id);
+  };
 
   return (
     <div className="messages">
@@ -63,7 +65,7 @@ const Messages = () => {
                   {currentUser.isSeller ? convo.sellerId : convo.buyerId}
                 </td>
                 <td>
-                  <Link to="/message/123" className="link">
+                  <Link to={`/messages/${convo.id}`} className="link">
                     {convo?.lastmessage?.substring(0, 100)}...
                   </Link>
                 </td>
@@ -71,7 +73,9 @@ const Messages = () => {
                 <td>
                   {((currentUser.isSeller && !convo.readByseller) ||
                     (!currentUser.isSeller && !convo.readByBuyer)) && (
-                    <button onClick={handleRead}>Mark as Read</button>
+                    <button onClick={() => handleRead(convo.id)}>
+                      Mark as Read
+                    </button>
                   )}
                 </td>
               </tr>
